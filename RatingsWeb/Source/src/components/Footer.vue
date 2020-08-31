@@ -14,7 +14,7 @@
       <div class="col-lg-6">
       </div>
       <div class="col-lg-12 credits">
-        Azure RedHat Openshift workshop
+        Azure RedHat Openshift (ARO) Workshop
       </div>
       <div class="col-lg-6">
       </div>
