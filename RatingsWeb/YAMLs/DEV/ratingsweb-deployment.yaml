@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ratingsweb-deploy
+  namespace: aks-workshop-dev
+spec:
+  selector:
+      matchLabels:
+        app: ratingsweb-pod
+  replicas: 1
+  template:
+      metadata:
+        labels:
+            app: ratingsweb-pod
+      spec:
+        containers:
+        - name: ratingsweb-app          
+          image: akswkshpacr.azurecr.io/ratingsweb:v1.4.4
+          imagePullPolicy: IfNotPresent
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+          - name: API
+            value: http://ratingsapi-service.aks-workshop-dev.svc.cluster.local
+          ports:
+          - containerPort: 8080
+        imagePullSecrets:
+        - name: aks-workshop-secret
+        nodeSelector:
+          agentpool: akswkpool
+          
